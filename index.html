@@ -8,203 +8,141 @@
     <title>React_background_Photo</title>
 </head>
 <style>
+    *{
+        margin:0;
+        padding: 0;
+        box-sizing: border-box;
+    }
     body{
         font-family: "Noto Sans KR", sans-serif;
         text-align: center;
-        background: linear-gradient(45deg, rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url("images/background.jpg");
+        background: linear-gradient(45deg, rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url("images/background.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
         height: 100vh;
-        /* overflow: hidden; */
         color: white;
+        overflow: hidden;
     }
-    #title{
-        font-size: 40px;
-    }
-    #sub_title{
-        font-size: 30px;
-    }
-    .main-card-border{
-        position: relative;
+    .main{
+        height: 585px;
         /* background-color: red; */
     }
-    .main-card-border .prev{
-        position: absolute;
-        border-radius: 50%;
-        font-size :22px;
-        font-weight: bold;
-        width: 50px;
+    .search_button{
+        margin-left: 20px;
+        background-color: transparent;
+        width: 70px;
         height: 50px;
-        top: 45%;
-        left:35%;
-        background: powderblue;
-        border: 1px powderblue solid;
-        box-shadow: inset 0 1px 0 powderblue;
-        cursor: pointer;
-    }
-    .main-card-border .next{
-        position : absolute;
-        border-radius: 50%;
-        font-size :22px;
+        color: white;
         font-weight: bold;
-        width: 50px;
-        height: 50px;
-        top:45%;
-        right:35%;
-        background: powderblue;
-        border: 1px powderblue solid;
-        box-shadow: inset 0 1px 0 powderblue;
-        cursor: pointer;
-    }
-
-    .main-card-border .prev span:hover{
-        padding-right: 10px;
-        font-size: 25px;
-    }
-
-    .main-card-border .next span:hover{
-        padding-left : 10px;
-        font-size: 25px;
-    }
-
-    .main-card{
-        position: relative;
-        border:7px solid white;
-        position: relative;
-        display: inline-block;
+        border-radius: 100px;
+        vertical-align: 5px;
     }
     .main-card img{
-        display: block;
-        width: 300px;
-        height: 400px;
+        margin-top: 15px;
     }
-    .main-card button{
-        position: absolute;
-        bottom:15px;
-        right:10px;
-        font-size: 30px;
-        color:red;
-        border: 1px solid transparent;
-        cursor: pointer;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
+    .main-card button {
+      background-color: rgb(5, 27, 25);
+      width: 30px;
+      height: 30px;
+      border-radius: 20px;
+      position: relative;
+      left: -35px;
+      bottom: 15px;
     }
-    .list{
-        list-style: none;
-        display: flex;
-        flex: wrap;
-        gap: 15px;
-        justify-content: center;
+    .footer{
+        background: linear-gradient(45deg, rgba(0,0,0,0.4),rgba(0,0,0,0.4));
+        width: 100%;
+        height: 230px;
     }
+    
 </style>
 <body>
     <div id ="app"></div>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <!-- React 사용시 필수 -->
     <script type="text/babel">
-        const MainCard = ({img,handleheartClick})=>{
+    
+    const Form = ()=>{
+        const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
+        const [value, setValue] = React.useState('');
+        const [errorMessage, setErrorMessage] = React.useState('');
+        const create = (e)=>{
+            e.preventDefault();
+            setErrorMessage("")
+            if(value === ""){
+                setErrorMessage("It cannot be submitted with an empty value!")
+            }
+        }
+        const translate = (e)=>{
+            const userValue = e.target.value; //input값이 저장되는 이벤트객체의 속성위치를 변수 지정.
+            setErrorMessage("") //함수가 호출될 때 마다 초기값을 지정해줘야 된다.
+            if(includesHangul(userValue)){
+                setErrorMessage("You cannot input Korean!");
+            }
+            setValue(userValue.toUpperCase()); //소문자를 대문자로 변경.
+        }
+        return(
+            <form onSubmit={create}>
+                <input
+                style={{width:'450px',height:'40px',fontSize:'30px'}} 
+                type ="text"
+                placeholder="Please enter English language."
+                value={value}
+                onChange ={translate}
+                />
+                <button className ="search_button">Create</button>
+                <p style={{color:"red",fontWeight:"bold"}}>{errorMessage}</p>
+            </form>
+        )
+    }
+
+        const MainCard = ({img,onHeartClick})=>{
             return(
-            <div className ="main-card-border">
-                <button className="prev"><span>&lang;</span></button>
-                <div className = "main-card">
+                <div className="main-card">
                     <img
                         src = {img}
-                        alt = "first"
+                        width = "260"
                     />
-                    <button onClick={handleheartClick}>♥</button>
+                    <button onClick={onHeartClick}>🤍</button>
                 </div>
-                <button className="next"><span>&rang;</span></button>
+            )
+        }
+    
+        const Footer = ()=>{
+            return(
+                <div className="footer">
+                    <ul>
+                        
+                    </ul>
+                </div>
+            )
+        }
+
+    const App = ()=>{
+        const captin = "/images/captin.jpg"
+        const hulk = "/images/hulk.jpg"
+        const iron = "/images/iron-man.jpg"
+        const iron_2 = "/images/ironMan.webp"
+        const thor = "/images/thor.jpg"
+
+        const handleHeartClick = ()=>{
+            console.log("하트 눌렀음")
+        }
+
+        return(
+            <div>
+            <div className="main">
+                <h1 style={{fontSize:'75px',marginBottom:'30px'}}>Avengers Background</h1>
+                <Form />
+                <MainCard img={captin} onHeartClick={handleHeartClick} />
             </div>
-            )
-        }
-
-        const Input = ({updateCounter}) => {
-            const [value, setValue] = React.useState("");
-            const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
-            const [errorMessage, setErrorMessage] = React.useState('');
-
-            function handleInputChange(e){
-                const userValue = e.target.value;
-                setErrorMessage("")
-                if(includesHangul(userValue)){
-                  setErrorMessage("한글은 입력할 수 없습니다.");
-                }
-                setValue(userValue.toUpperCase());
-            }
-
-            function handleFormSubmit(e){
-                e.preventDefault();
-                setErrorMessage("")
-                if(value === ''){
-                    setErrorMessage("빈 값으로 만들 수 없습니다.")
-                    return;
-                }
-                updateCounter();
-            }
-
-            return(
-                <form onSubmit ={handleFormSubmit}>
-                <input
-                    type = "text"
-                    placeholder ="Please enter it in English."
-                    value = {value}
-                    onChange = {handleInputChange}
-                />
-                <button style = {{marginLeft:"10px"}}>Create</button>
-                <p>{errorMessage}</p>
-                </form>
-            )
-        }
-
-
-        const Item = (props)=>{
-            return(
-                <li>
-                    <img src={props.img} style = {{width:'150px'}} />
-                </li>
-            )
-        }
-        const List =({list})=>{
-            console.log(list)
-            return(
-                <ul className="list">
-                    {
-                        list.map((background)=>(
-                            <Item img={background} key={background} />
-                        ))
-                    }
-                </ul>
-            )
-        }
-
-        const App = () => {
-            const photo = ["images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg"]
-            const [counter,setCounter] = React.useState(1)
-            const [list,list_set] = React.useState([photo[0],photo[1],photo[2]]);
-
-            function updateCounter(e){
-                
-                setCounter(counter+1);
-            }
-
-            function handleheartClick(){
-                list_set([...list,photo[3]]);
-                console.log(1)
-            }
-
-            return(
-                <div>
-                    <h1 id = "title"> Background slide {counter}</h1>
-                    <MainCard img={photo[0]} handleheartClick={handleheartClick} />
-                    <Input updateCounter={updateCounter} />
-                    <h1 id = "sub_title">background wish list</h1>
-                    <List list={list} />
-                </div>
-            )
-        }
-        const app = document.querySelector("#app");
-        ReactDOM.render(<App />,app);
+                <Footer />
+            </div>
+        )
+    }
+    const main = document.querySelector('#app');
+    ReactDOM.render(<App />,main)
     </script>
 </body>
 </html>
