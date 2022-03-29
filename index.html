@@ -114,7 +114,8 @@
         return(
             <form onSubmit={create}>
                 <input
-                style={{width:'420px',height:'30px',fontSize:'18px',borderRadius:'30px',backgroundColor:'rgba(0,0,0,0.5)'}} 
+                style={{color : 'white',width:'420px',height:'30px',fontSize:'18px',borderRadius:'30px',backgroundColor:'rgba(0,0,0,0.5)'}} 
+                className = "input_style"
                 type ="text"
                 placeholder="  Please enter English language."
                 value={value}
@@ -199,6 +200,8 @@
         }
         
         const alreadyFavorite = list.includes(mainCat);
+
+        
 
         return(
             <div>
