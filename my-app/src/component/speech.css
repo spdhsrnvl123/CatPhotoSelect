@@ -1,0 +1,21 @@
+.bubble {
+  position: absolute;
+  top: 20%;
+  left: 27%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-image: linear-gradient(135deg, #90f7ec 10%, #33350357 100%);
+  font-size: 33px;
+  font-weight: bold;
+  padding-top: 36px;
+  animation: move 2s infinite alternate;
+}
+@keyframes move {
+  0% {
+    transform: translateX(-60px);
+  }
+  100% {
+    transform: translateY(150px);
+  }
+}
